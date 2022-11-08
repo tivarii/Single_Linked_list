@@ -6,19 +6,22 @@ class linkedList{
         int item;
         node * next=NULL;
     };
+    node *head;
     public:
-    node *head=NULL;
+    linkedList(){
+        head->next=NULL;
+    }
     void transverse();
     void insert();
     void delete_Linklist();
 };
 void linkedList:: transverse(){
-    node *temp;
-    temp=head;
-    if(head==NULL){
+    if(head->next==NULL){
         cout<<"There is no node in list";
         return;
     }
+    node *temp;
+    temp=head->next;
     while(1){
         cout<<endl<<(temp->item);
         if(temp->next==NULL){
@@ -28,44 +31,54 @@ void linkedList:: transverse(){
     }
 }
 void linkedList :: delete_Linklist(){
-    if(head==NULL){
+    if(head->next==NULL){
         cout<<"No node to delete in list.";
         return;
     }
     int choice;
     cout<<" 1:At Beginning \n 2:At End \n 3: After a node\n";
-    cout<<"Enter the choice";
+    cout<<"Enter the choice: ";
     cin>>choice;
     switch (choice)
     {
     case (1):{
-        node* ptr=head;
-        head=head->next;
+        node* ptr=head->next;
+        head->next=ptr->next;
         delete ptr;
+        cout<<"NODE DELETED SUCCESSFULLY";
         transverse();
         break;
     }
     case(2):{
-        node *ptr=head;
-        node *prev;
+        node *ptr=head->next;
+        node *prev=head;
         while(ptr->next!=NULL){
             prev=ptr;
             ptr=ptr->next;
         }
+    if(prev==head){
+        head->next=NULL;
+    }
+    else{
+        prev->next=NULL;
+    }
     delete ptr;
-    prev->next=NULL;
-     transverse();
+    transverse();
     break;
     }
     case(3):{
         int index;
         node *temp;
         node *ptr;
-        temp=head;
+        temp=head->next;
         cout<<"Enter node Number: ";
         cin>>index;
+        if(index<=0){
+            cout<<"Invalid Node Number.";
+            return;
+        }
         for(int i=0;i<index;i++){
-            if(temp->next==NULL || index<0){
+            if(temp->next==NULL){
                 cout<<"Invalid Node Number.";
                 return;
             }
@@ -95,22 +108,29 @@ void linkedList :: insert(){
         node *temp;
         int item;
         temp=new node;
-        if(head==NULL){
+        if((head->next)==NULL){
             temp->next=NULL;
         }
         else{
-            temp->next=head;
+            temp->next=head->next;
         }
         cout<<"Enter the item: ";
         cin>>item;
         temp->item=item;
-        head=temp;
+        // head=temp;
+        head->next=temp;
         cout<<endl<<"Data Stored Successfully.";
         transverse();
         return;
     }
     case (2):{
         node *temp;
+        // if((head->next)==NULL){
+        //     temp->next=NULL;
+        // }
+        // else{
+        //     temp->next=head->next;
+        // }
         temp=head;
         while(temp->next!=NULL){
             temp=temp->next;
@@ -126,7 +146,7 @@ void linkedList :: insert(){
         int item;
         node *temp;
         node *ptr;
-        temp=head;
+        temp=head->next;
         cout<<"Enter node Number: ";
         cin>>index;
         for(int i=0;i<(index-1);i++){
